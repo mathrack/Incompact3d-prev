@@ -169,7 +169,7 @@ contains
     end if
 
     if (iscalar.ne.0) then
-       if (itimescheme.ne.7) then
+       if (iimplicit.le.0) then
           if ((nclyS1.eq.2).and.(xstart(2).eq.1)) then
              !! Generate a hot patch on bottom boundary
              phi(:,1,:,:) = one
@@ -177,6 +177,11 @@ contains
           if ((nclySn.eq.2).and.(xend(2).eq.ny)) THEN
              phi(:,xsize(2),:,:) = zero
           endif
+       else
+          ! Bottom temperature if alpha_sc(:,1)=1 and beta_sc(:,1)=0 (default)
+          if (nclyS1.eq.2) g_sc(:,1) = one
+          ! Top temperature if alpha_sc(:,2)=1 and beta_sc(:,2)=0 (default)
+          if (nclySn.eq.2) g_sc(:,2) = zero
        endif
     endif
 

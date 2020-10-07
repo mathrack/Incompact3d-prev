@@ -785,6 +785,7 @@ contains
     USE param, ONLY : ibirman_eos
     USE param, ONLY : xnu, prandtl
     USE param, ONLY : one
+    USE param, ONLY : iimplicit
     USE variables
 
     USE var, ONLY : ta1, tb1, tc1, td1, di1
@@ -839,7 +840,9 @@ contains
 
        !!------------------------------------------------------------------------------
        !! Y-pencil
+       iimplicit = -iimplicit
        CALL deryy (tc2, ta2, di2, sy, sfyp, ssyp, swyp, ysize(1), ysize(2), ysize(3), 1)
+       iimplicit = -iimplicit
        IF (imultispecies) THEN
           tc2(:,:,:) = (xnu / prandtl) * tc2(:,:,:) / ta2(:,:,:)
 
@@ -854,7 +857,9 @@ contains
 
           DO is = 1, numscalar
              IF (massfrac(is)) THEN
+                iimplicit = -iimplicit
                 CALL deryy (td2, phi2(:,:,:,is), di2, sy, sfyp, ssyp, swyp, ysize(1), ysize(2), ysize(3), 1)
+                iimplicit = -iimplicit
                 tc2(:,:,:) = tc2(:,:,:) + (xnu / sc(is)) * (te2(:,:,:) / mol_weight(is)) * td2(:,:,:)
              ENDIF
           ENDDO
@@ -969,6 +974,7 @@ contains
     USE variables, ONLY : derxx, deryy, derzz
     USE param, ONLY : nrhotime
     USE param, ONLY : xnu, prandtl
+    USE param, ONLY : iimplicit
 
     USE var, ONLY : td1, te1, di1, sx, sfxp, ssxp, swxp
     USE var, ONLY : rho2, ta2, tb2, di2, sy, sfyp, ssyp, swyp
@@ -990,7 +996,9 @@ contains
     CALL derzz (ta3,rho3,di3,sz,sfzp,sszp,swzp,zsize(1),zsize(2),zsize(3),1)
     CALL transpose_z_to_y(ta3, tb2)
 
+    iimplicit = -iimplicit
     CALL deryy (ta2,rho2,di2,sy,sfyp,ssyp,swyp,ysize(1),ysize(2),ysize(3),1)
+    iimplicit = -iimplicit
     ta2(:,:,:) = ta2(:,:,:) + tb2(:,:,:)
     CALL transpose_y_to_x(ta2, te1)
 
