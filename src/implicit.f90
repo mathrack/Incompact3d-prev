@@ -887,7 +887,7 @@ real(mytype),dimension(ysize(1),ysize(2),ysize(3)) :: di2
 
       td2(:,:,:) = zero
 
-   else if (cly1.eq.1 .and. npaire.eq.0) then
+   else if ((cly1.eq.1.or.clyn.eq.1) .and. npaire.eq.0) then
 
       call deryy(td2,ux2,di2,sy,sfy,ssy,swy,ysize(1),ysize(2),ysize(3),0)
    else
@@ -1025,10 +1025,10 @@ subroutine multmatrix9(td2,ta2,ux2,npaire)
 
      td2(:,:,:) = zero
 
-  elseif ((ncly1.eq.1).and.(npaire.eq.0)) then
+  elseif ((ncly1.eq.1.or.nclyn.eq.1) .and. npaire.eq.0) then
 
      call deryy(td2,ux2,di2,sy,sfy,ssy,swy,ysize(1),ysize(2),ysize(3),0)
-  elseif (ncly1.eq.1) then
+  else
      call deryy(td2,ux2,di2,sy,sfyp,ssyp,swyp,ysize(1),ysize(2),ysize(3),1)         
 
   endif
@@ -1746,8 +1746,8 @@ if (isecondder.ne.5) then
      aam(2     )=-two*as2y
      aam(ny-1  )=-two*asmy
      aam(3     )=-two*(as3y+bs3y)
-     aam(4     )=-two*(as4y+bs4y+cs4y)
      aam(ny-2  )=-two*(asty+bsty)
+     aam(4     )=-two*(as4y+bs4y+cs4y)
      aam(ny-3  )=-two*(astty+bstty+cstty)
      aam(5:ny-4)=-two*(asjy+bsjy+csjy+dsjy)
      if (istret==0) then
@@ -1794,8 +1794,8 @@ if (isecondder.ne.5) then
      !DIAG SUP 2
      ccm(1     )=cs1y
      ccm(ny    )=csny
-     ccm(2     )=0.!bs2y
-     ccm(ny-1  )=0.!bsmy
+     ccm(2     )=zero!bs2y
+     ccm(ny-1  )=zero!bsmy
      ccm(3     )=bs3y
      ccm(ny-2  )=bsty
      ccm(4     )=bs4y
