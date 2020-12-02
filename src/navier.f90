@@ -418,7 +418,7 @@ contains
     endif
 
     if (ncly1.eq.2) then
-       if (xsize(2)==1) then
+       if (xstart(2)==1) then
           do k=1,xsize(3)
              do i=1,xsize(1)
                 dpdxy1(i,k)=px1(i,1,k)/gdt(itr)
@@ -428,11 +428,11 @@ contains
        endif
     endif
     if (nclyn.eq.2) then
-       if (xsize(2)==ny) then
+       if (xend(2)==ny) then
           do k=1,xsize(3)
              do i=1,xsize(1)
-                dpdxyn(i,k)=px1(i,ny,k)/gdt(itr)
-                dpdzyn(i,k)=pz1(i,ny,k)/gdt(itr)
+                dpdxyn(i,k)=px1(i,xsize(2),k)/gdt(itr)
+                dpdzyn(i,k)=pz1(i,xsize(2),k)/gdt(itr)
              enddo
           enddo
        endif
